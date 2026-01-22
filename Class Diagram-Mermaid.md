@@ -1,3 +1,5 @@
+````mermaid
+
 classDiagram
 class Details {
 - int id
