@@ -23,7 +23,7 @@ public class BookLoan {
 
     @Setter
     @Column(nullable = false)
-    private LocalDate duDate;
+    private LocalDate dueDate;
 
     @Setter
     private boolean returned;
