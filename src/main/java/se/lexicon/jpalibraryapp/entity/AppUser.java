@@ -44,4 +44,14 @@ public class AppUser {
         this.regDate = regDate;
         this.userDetails = userDetails;
     }
+    public void addBookLoan(BookLoan bookLoan) {
+        if (bookloans.add(bookLoan)) {
+            bookLoan.setBorrower(this);
+        }
+    }
+    public void removeBookLoan(BookLoan bookLoan) {
+        if (bookloans.remove(bookLoan)) {
+            bookLoan.setBorrower(null);
+        }
+    }
 }
