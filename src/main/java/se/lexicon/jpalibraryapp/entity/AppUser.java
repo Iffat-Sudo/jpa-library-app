@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @ToString
@@ -30,9 +31,12 @@ public class AppUser {
     @Setter
     private LocalDate regDate;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="details_id")
     private Details userDetails;
+
+    @OneToMany(mappedBy = "borrower")
+    Set<BookLoan> bookloans;
 
     public AppUser(String username, String password, LocalDate regDate, Details userDetails) {
         this.username = username;

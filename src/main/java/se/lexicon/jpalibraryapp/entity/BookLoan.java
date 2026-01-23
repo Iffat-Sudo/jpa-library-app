@@ -36,4 +36,11 @@ public class BookLoan {
     @ManyToOne
     private  Book book;
 
+    public BookLoan(LocalDate loanDate, LocalDate dueDate, boolean returned, AppUser borrower, Book book) {
+        this.loanDate = loanDate;
+        this.dueDate = dueDate;
+        this.returned = returned;
+        this.borrower = borrower;
+        this.book = book;
+    }
 }
