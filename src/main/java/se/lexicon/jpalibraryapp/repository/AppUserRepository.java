@@ -12,9 +12,13 @@ import java.util.Optional;
 public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
 
     Optional<AppUser> findByUsername(String username);
+
     List<AppUser> findByRegDateBetween(LocalDate regDateAfter, LocalDate regDateBefore);
+
     List<AppUser> findByUserDetails_Id(int userDetailsId);
 
-    @Query("SELECT u FROM AppUser u WHERE LOWER(u.userDetails.email) = LOWER(:email)")
-    Optional<AppUser> findByEmailIgnoreCase(@Param("email") String email);
+    Optional<AppUser> findByUserDetails_EmailIgnoreCase(String email);
+
+    // @Query("SELECT u FROM AppUser u WHERE LOWER(u.userDetails.email) = LOWER(:email)")
+    // Optional<AppUser> findByEmailIgnoreCase(@Param("email") String email);
 }

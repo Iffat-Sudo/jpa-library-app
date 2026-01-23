@@ -13,17 +13,23 @@ import java.util.Optional;
 
 public interface AuthorRepository extends JpaRepository<Author, Integer> {
 
+    // Find by first name
     List<Author> findByFirstName(String firstName);
 
+    // Find by last name
     List<Author> findByLastName(String lastName);
 
+    // Find by first name or last name containing a keyword
     List<Author> findByFirstNameOrLastNameContains(String firstName, String lastName);
 
-    List<Author>findByWrittenBooks_Id(Integer id);
+    // Find by a book's ID
+    List<Author> findByWrittenBooks_Id(int id);
 
+    // Update name by ID
     @Modifying
-    @Query("UPDATE Author a SET a.firstName = ?1, a.lastName= ?2 WHERE a.id = ?3")
-    int updateName(String firstName, String lastName, Integer id);
-    void deletedById(int id);
+    @Query("UPDATE Author a SET a.firstName = ?1, a.lastName = ?2 WHERE a.id = ?3")
+    int updateName(String firstName, String lastName, int id);
 
+    // Delete by ID
+    void deleteById(int id);
 }

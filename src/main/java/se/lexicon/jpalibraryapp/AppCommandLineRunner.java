@@ -1,5 +1,6 @@
 package se.lexicon.jpalibraryapp;
 
+import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import se.lexicon.jpalibraryapp.entity.AppUser;
 import se.lexicon.jpalibraryapp.entity.Details;
@@ -21,40 +22,44 @@ public class AppCommandLineRunner implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        Details details = detailsRepository.save(new Details("test123@gmail.com","test",LocalDate.of(1990,1,1)));
+    @Transactional
+    public void run(String... args) {
+        // AppUserRepository
+        Details details = new Details("email@email.com", "name", LocalDate.of(1982, 12, 2));
+        appUserRepository.save(new AppUser("username", "123", LocalDate.now(), details));
 
-        System.out.println("User Details added successfully!");
-
-        appUserRepository.save(new AppUser("test123","1234",LocalDate.now(),details));
-        System.out.println("AppUser is added successfully!");
-
-        //AppUserRepository
-        Optional<AppUser> appUser=appUserRepository.findByUsername("test123");
+        Optional<AppUser> appUser = appUserRepository.findByUsername("username");
+        System.out.print("1. ");
         appUser.ifPresent(System.out::println);
 
         LocalDate regDateAfter = LocalDate.of(0, 1, 1);
         LocalDate regDateBefore = LocalDate.of(2030, 1, 1);
-        List<AppUser> appUsers=appUserRepository.findByRegDateBetween(regDateAfter,regDateBefore);
+        List<AppUser> appUsers = appUserRepository.findByRegDateBetween(regDateAfter, regDateBefore);
+        System.out.print("2. ");
         System.out.println(appUsers);
 
-        List<AppUser> appUser1=appUserRepository.findByUserDetails_Id(1);
-        System.out.println(appUser1);
+        List<AppUser> appUsers2 = appUserRepository.findByUserDetails_Id(1);
+        System.out.print("3. ");
+        System.out.println(appUsers2);
 
-        Optional<AppUser> appUser2 = appUserRepository.findByEmailIgnoreCase("test002@gmail.com");
+        Optional<AppUser> appUser2 = appUserRepository.findByUserDetails_EmailIgnoreCase("email@email.com");
+        System.out.print("4. ");
         appUser2.ifPresent(System.out::println);
 
-        //DetailsRepository
-        Optional<Details> details1=detailsRepository.findByEmail("test002@gmail.com");
+        // DetailsRepository
+        System.out.print("5. ");
+        Optional<Details> details1 = detailsRepository.findByEmail("email@email.com");
         details1.ifPresent(System.out::println);
 
-        List<Details> detailsList = detailsRepository.findByNameContains("test");
+        List<Details> detailsList = detailsRepository.findByNameContains("n");
+        System.out.print("6. ");
         System.out.println(detailsList);
 
-        List<Details> detailsList1 =detailsRepository.findByNameIgnoreCase("TEST");
+        List<Details> detailsList1 = detailsRepository.findByNameIgnoreCase("NAME");
+        System.out.print("7. ");
         System.out.println(detailsList1);
 
     }
 
 
-}
+    }
