@@ -4,31 +4,32 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Set;
 
 @Getter
-@Entity
 @NoArgsConstructor
+@ToString
+@Entity
 
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Integer id;
+    private int id;
 
     @Setter
-    @Column(length = 120, nullable = false)
+    @Column(length = 120,nullable = false)
     private String firstName;
 
     @Setter
-    @Column(length = 120, nullable = false)
+    @Column(length = 120,nullable = false)
     private String lastName;
 
     @Setter
-    @Column(nullable = false)
     @ManyToMany
-    Set<Book> writtenBooks;
+    private Set<Book> writtenBooks;
 
     public Author(String firstName, String lastName, Set<Book> writtenBooks) {
         this.firstName = firstName;
@@ -36,8 +37,17 @@ public class Author {
         this.writtenBooks = writtenBooks;
     }
 
-    public void addBook(Book book) {
-        writtenBooks.add(book);
-        book.getAuthors().add(this);
+    public void addBook(Book book){
+        if(writtenBooks.add(book)){
+            book.getAuthors().add(this);
+        }
     }
+
+    public void removeBook(Book book){
+        if(writtenBooks.remove(book)){
+            book.getAuthors().remove(this);
+        }
+    }
+
+
 }

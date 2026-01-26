@@ -17,8 +17,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
 
     List<AppUser> findByUserDetails_Id(int userDetailsId);
 
-    Optional<AppUser> findByUserDetails_EmailIgnoreCase(String email);
+    @Query("SELECT u FROM AppUser u WHERE LOWER(u.userDetails.email) = LOWER(:email)")
+    Optional<AppUser> findByEmailIgnoreCase(@Param("email") String email);
 
-    // @Query("SELECT u FROM AppUser u WHERE LOWER(u.userDetails.email) = LOWER(:email)")
-    // Optional<AppUser> findByEmailIgnoreCase(@Param("email") String email);
 }

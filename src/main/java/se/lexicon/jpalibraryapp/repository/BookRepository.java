@@ -7,10 +7,11 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
-    List<Book> findByIsbn(String isbn);
+    List<Book> findByIsbnIgnoreCase(String isbn);
 
-    List<Book> findByTitleContaining(String title);
-    List<Book>findByMaxLoanDaysIsLessThan(int days);
+    List<Book> findByTitleContains(String title);
+
+    List<Book> findByMaxLoanDaysIsLessThan(int maxLoanDaysIsLessThan);
 
 }
 
