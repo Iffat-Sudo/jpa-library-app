@@ -17,40 +17,36 @@ public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
-
+    @Column(nullable = false,updatable = false)
     private int id;
 
     @Setter
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(length = 50,unique = true,nullable = false)
     private String username;
 
     @Setter
-    @Column(length = 50, nullable = false)
+    @Column(length = 50,nullable = false)
     private String password;
 
     @Setter
     private LocalDate regDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "details_id", unique = true)
+    @JoinColumn(name= "details_id",unique = true)
     private Details userDetails;
 
     @OneToMany(mappedBy = "borrower")
-    // @ToString.Exclude
     Set<BookLoan> bookLoans;
 
-    // TODO: prepersist registration date or annotation...
-    public AppUser(String username, String password, LocalDate reDate, Details userDetails) {
+    public AppUser(String username, String password, LocalDate regDate, Details userDetails) {
         this.username = username;
         this.password = password;
-        this.regDate = reDate;
+        this.regDate = regDate;
         this.userDetails = userDetails;
     }
 
-    // TODO: Ok or exception?
-    public boolean addBookLoan(BookLoan bookLoan) {
-        if(bookLoan.getBook().isAvailable() && bookLoans.add(bookLoan)) {
+    public boolean addBookLoan(BookLoan bookLoan){
+        if(bookLoan.getBook().isAvailable() && bookLoans.add(bookLoan)){
             bookLoan.setBorrower(this);
             bookLoan.getBook().setAvailable(false);
             return true;
@@ -58,14 +54,14 @@ public class AppUser {
         return false;
     }
 
-    // TODO: Needed? Wrong?
-    public boolean removeBookLoan(BookLoan bookLoan) {
-        if(bookLoans.remove(bookLoan)) {
-            bookLoan.setBorrower(null);
+    public boolean removeBookLoan(BookLoan bookLoan){
+        if(bookLoans.remove(bookLoan)){
+            bookLoan.setReturned(true);
             bookLoan.getBook().setAvailable(true);
             return true;
         }
         return false;
     }
-    }
 
+
+}
